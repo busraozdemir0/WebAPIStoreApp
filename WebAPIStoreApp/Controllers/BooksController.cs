@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using WebAPIStoreApp.Models;
-using WebAPIStoreApp.Repositories;
+using Entities.Models;
+using Repositories.EfCore;
+using Repositories.Contracts;
 
 namespace WebAPIStoreApp.Controllers
 {
@@ -10,12 +11,12 @@ namespace WebAPIStoreApp.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly RepositoryContext _context;
+        private readonly IRepositoryManager _manager;
 
-        public BooksController(RepositoryContext context)
+        public BooksController(IRepositoryManager manager)
         {
-            // DI => Context sınıfını gördüğü an otomatik olarak new'lemesi için(Program.cs'de yapılandırmayı gerçekleştirdik)
-            _context = context;
+            // DI => Manager sınıfını gördüğü an otomatik olarak new'lemesi için(Program.cs'de yapılandırmayı gerçekleştirdik)
+            _manager = manager;
         }
 
         [HttpGet]
@@ -23,7 +24,7 @@ namespace WebAPIStoreApp.Controllers
         {
             try
             {
-                var books = _context.Books.ToList();
+                var books = _manager.Book.GetAllBooks(false);
                 return Ok(books);
             }
             catch (Exception ex)
@@ -37,7 +38,7 @@ namespace WebAPIStoreApp.Controllers
         {
             try
             {
-                var book = _context.Books.Where(b => b.Id.Equals(id)).SingleOrDefault();
+                var book = _manager.Book.GetOneBookById(id, false);
 
                 if (book is null) // eğer gönderilen id'ye ait kitap yoksa
                 {
@@ -61,8 +62,8 @@ namespace WebAPIStoreApp.Controllers
                 {
                     return BadRequest();  //400 kodu üretecek
                 }
-                _context.Books.Add(book);
-                _context.SaveChanges();
+                _manager.Book.CreateOneBook(book);
+                _manager.Save();  // manager'da kaydetme işlemi metod içerisine yazıldı
                 return StatusCode(201, book); // 201 kodu => created
 
             }
@@ -77,7 +78,7 @@ namespace WebAPIStoreApp.Controllers
             try
             {
                 // check book?
-                var entity = _context.Books.Where(b => b.Id.Equals(id)).SingleOrDefault();
+                var entity = _manager.Book.GetOneBookById(id, true); ;
 
                 if (entity is null)
                 {
@@ -90,7 +91,8 @@ namespace WebAPIStoreApp.Controllers
 
                 entity.Title = book.Title;
                 entity.Price = book.Price;
-                _context.SaveChanges();
+
+                _manager.Save();
 
                 return Ok(book);
             }
@@ -105,7 +107,7 @@ namespace WebAPIStoreApp.Controllers
         {
             try
             {
-                var entity = _context.Books.Where(b => b.Id.Equals(id)).SingleOrDefault();
+                var entity = _manager.Book.GetOneBookById(id, false);
 
                 if (entity is null)
                     return NotFound(new // girilen id'ye ait kitap bulunamazsa hata mesajı dönecek 404 koduyla
@@ -114,8 +116,9 @@ namespace WebAPIStoreApp.Controllers
                         message = $"Book with id:{id} could not found."
                     });
 
-                _context.Books.Remove(entity);
-                _context.SaveChanges();
+                _manager.Book.Delete(entity);
+                _manager.Save();
+
                 return NoContent();
             }
             catch (Exception ex)
@@ -130,12 +133,13 @@ namespace WebAPIStoreApp.Controllers
             try
             {
                 // kitap var mı kontrolü
-                var entity = _context.Books.Where(b => b.Id.Equals(id)).SingleOrDefault();
+                var entity = _manager.Book.GetOneBookById(id, true);
                 if (entity is null)
                     return NotFound(); //404
 
                 bookPatch.ApplyTo(entity);
-                _context.SaveChanges();
+                _manager.Book.Update(entity);
+                _manager.Save();
 
                 return NoContent(); //204
             }

@@ -1,8 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WebAPIStoreApp.Models;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Entities.Models;
 
-namespace WebAPIStoreApp.Repositories.Config
+namespace Repositories.EfCore.Config
 {
     public class BookConfig : IEntityTypeConfiguration<Book>
     {

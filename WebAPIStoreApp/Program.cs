@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using WebAPIStoreApp.Repositories;
+using Repositories.EfCore;
+using WebAPIStoreApp.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +11,8 @@ builder.Services.AddControllers().AddNewtonsoftJson(); // AddNewtonsoftJson => P
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<RepositoryContext>(options =>    // IoC'ye DbContext tanýmýný yapmýþ olduk (DI için)
- options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection")));
+builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.ConfigureRepositoryManager(); // Extensions'daki Metod tek parametreli dizi olduðu için metoda parametre vermek zorunda deðiliz
 
 var app = builder.Build();
 
