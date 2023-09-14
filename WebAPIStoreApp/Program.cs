@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using Repositories.EfCore;
+using Services.Contracts;
 using WebAPIStoreApp.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,11 +26,19 @@ builder.Services.ConfigureLoggerService();
 
 var app = builder.Build();
 
+var logger = app.Services.GetRequiredService<ILoggerService>();
+app.ConfigureExcepitonHandler(logger);
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())  // development modunda çalýþýyorsa
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+if(app.Environment.IsProduction()) // production modda çalýþýyorsa
+{
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
