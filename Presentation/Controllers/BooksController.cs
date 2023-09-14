@@ -1,21 +1,23 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Entities.Models;
-using Repositories.EfCore;
-using Repositories.Contracts;
+using Services.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WebAPIStoreApp.Controllers
+namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/books")]
     public class BooksController : ControllerBase
     {
-        private readonly IRepositoryManager _manager;
+        private readonly IServiceManager _manager;
 
-        public BooksController(IRepositoryManager manager)
+        public BooksController(IServiceManager manager)
         {
-            // DI => Manager sınıfını gördüğü an otomatik olarak new'lemesi için(Program.cs'de yapılandırmayı gerçekleştirdik)
             _manager = manager;
         }
 
@@ -24,7 +26,7 @@ namespace WebAPIStoreApp.Controllers
         {
             try
             {
-                var books = _manager.Book.GetAllBooks(false);
+                var books = _manager.BookService.GetAllBooks(false); // değişiklikleri izlememesini tercih ettiğimiz için ef core çalışmasında bir performans artışı gözlemleyeceğiz
                 return Ok(books);
             }
             catch (Exception ex)
@@ -38,7 +40,7 @@ namespace WebAPIStoreApp.Controllers
         {
             try
             {
-                var book = _manager.Book.GetOneBookById(id, false);
+                var book = _manager.BookService.GetOneBookById(id, false);
 
                 if (book is null) // eğer gönderilen id'ye ait kitap yoksa
                 {
@@ -62,8 +64,8 @@ namespace WebAPIStoreApp.Controllers
                 {
                     return BadRequest();  //400 kodu üretecek
                 }
-                _manager.Book.CreateOneBook(book);
-                _manager.Save();  // manager'da kaydetme işlemi metod içerisine yazıldı
+                _manager.BookService.CreateOneBook(book);
+
                 return StatusCode(201, book); // 201 kodu => created
 
             }
@@ -77,24 +79,14 @@ namespace WebAPIStoreApp.Controllers
         {
             try
             {
-                // check book?
-                var entity = _manager.Book.GetOneBookById(id, true); ;
-
-                if (entity is null)
+                if (book is null) // parametre dolu mu boş mu kontrolü
                 {
-                    return NotFound(); //404
+                    return BadRequest();  //400 kodu üretecek
                 }
 
-                // check id
-                if (id != book.Id)
-                    return BadRequest();  //400
+                _manager.BookService.UpdateOneBook(id, book, true);
 
-                entity.Title = book.Title;
-                entity.Price = book.Price;
-
-                _manager.Save();
-
-                return Ok(book);
+                return NoContent(); //204
             }
             catch (Exception ex)
             {
@@ -107,17 +99,7 @@ namespace WebAPIStoreApp.Controllers
         {
             try
             {
-                var entity = _manager.Book.GetOneBookById(id, false);
-
-                if (entity is null)
-                    return NotFound(new // girilen id'ye ait kitap bulunamazsa hata mesajı dönecek 404 koduyla
-                    {
-                        StatusCode = 404,
-                        message = $"Book with id:{id} could not found."
-                    });
-
-                _manager.Book.Delete(entity);
-                _manager.Save();
+                _manager.BookService.DeleteOneBook(id, false);
 
                 return NoContent();
             }
@@ -133,13 +115,12 @@ namespace WebAPIStoreApp.Controllers
             try
             {
                 // kitap var mı kontrolü
-                var entity = _manager.Book.GetOneBookById(id, true);
+                var entity = _manager.BookService.GetOneBookById(id, true);
                 if (entity is null)
                     return NotFound(); //404
 
                 bookPatch.ApplyTo(entity);
-                _manager.Book.Update(entity);
-                _manager.Save();
+                _manager.BookService.UpdateOneBook(id, entity, true);
 
                 return NoContent(); //204
             }
