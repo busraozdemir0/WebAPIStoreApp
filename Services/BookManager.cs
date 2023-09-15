@@ -25,11 +25,12 @@ namespace Services
             _mapper = mapper;
         }
 
-        public Book CreateOneBook(Book book)
+        public BookDto CreateOneBook(BookDtoForInsertion bookDto)
         {
-            _manager.Book.CreateOneBook(book);
+            var entity = _mapper.Map<Book>(bookDto); // Bize bir Book lazım olduğu için BookDtoForInsertion ifadesinden mapleme işlemi gerçekleştirdik
+            _manager.Book.CreateOneBook(entity);
             _manager.Save();
-            return book;
+            return _mapper.Map<BookDto>(entity);
         }
 
         public void DeleteOneBook(int id, bool trackChanges)
@@ -52,14 +53,32 @@ namespace Services
             return _mapper.Map<IEnumerable<BookDto>>(books);
         }
 
-        public Book GetOneBookById(int id, bool trackChanges)
+        public BookDto GetOneBookById(int id, bool trackChanges)
         {
             var book= _manager.Book.GetOneBookById(id, trackChanges);
             if (book is null) // eğer gönderilen id'ye ait kitap yoksa
             {
                 throw new BookNotFoundException(id);  // random ve çok fazla hata mesajı içeren hatalar yerine bizim ürettiğimiz hata mesajıyla(daha az) dönecek.
             }
-            return book;
+            return _mapper.Map<BookDto>(book); // BookDto türünde döndürebilmek için book entity'sinden BookDto'ya mapleme işlemi gerçekleştirdik
+        }
+
+        public (BookDtoForUpdate bookDtoForUpdate, Book book) GetOneBookForPatch(int id, bool trackChanges)
+        {
+            var book = _manager.Book.GetOneBookById(id,trackChanges);
+            
+            if (book is null)
+                throw new BookNotFoundException(id);
+
+            var bookDtoForUpdate = _mapper.Map<BookDtoForUpdate>(book);
+            return (bookDtoForUpdate, book);  // Tuppe olarak geri döndürdük
+
+        }
+
+        public void SaveChangesForPatch(BookDtoForUpdate bookDtoForUpdate, Book book)
+        {
+            _mapper.Map(bookDtoForUpdate, book);
+            _manager.Save();
         }
 
         public void UpdateOneBook(int id, BookDtoForUpdate bookDto, bool trackChanges)

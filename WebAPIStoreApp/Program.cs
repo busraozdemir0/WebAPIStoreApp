@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using Repositories.EfCore;
@@ -20,6 +21,10 @@ builder.Services.AddControllers(config =>
  .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly) // controller yapýsýný Presentation katmanýna taþýdýðýmýz için
  .AddNewtonsoftJson(); // AddNewtonsoftJson => Patch istekleriyle çalýþmak için
 
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;  // ModelState isvalid olduðunda BadRequest dönerek geçersiz kýlacaðýz/bastýracaðýz
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
