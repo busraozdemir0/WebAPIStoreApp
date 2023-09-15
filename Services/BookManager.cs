@@ -46,9 +46,10 @@ namespace Services
 
         }
 
-        public IEnumerable<Book> GetAllBooks(bool trackChanges)
+        public IEnumerable<BookDto> GetAllBooks(bool trackChanges)
         {
-            return _manager.Book.GetAllBooks(trackChanges);
+            var books= _manager.Book.GetAllBooks(trackChanges);
+            return _mapper.Map<IEnumerable<BookDto>>(books);
         }
 
         public Book GetOneBookById(int id, bool trackChanges)

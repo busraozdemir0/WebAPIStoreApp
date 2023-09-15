@@ -10,9 +10,16 @@ LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(),"/nlo
 
 // Add services to the container.
 
-builder.Services.AddControllers()
-    .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly) // controller yapýsýný Presentation katmanýna taþýdýðýmýz için
-    .AddNewtonsoftJson(); // AddNewtonsoftJson => Patch istekleriyle çalýþmak için
+builder.Services.AddControllers(config =>
+{
+    config.RespectBrowserAcceptHeader= true;  // default olarak false gelen yapýdýr. Ýçerik pazarlýðý için kullanýlýr. Örneðin csv olarak istek attýðýnda csv dosyasý olarak dönüþ yapmalýdýr
+    config.ReturnHttpNotAcceptable = true;
+})
+ .AddCustomCsvFormatter() // CSV formatýnda çýktý verecep yapýyý bu metodda inþaa ettik
+ .AddXmlDataContractSerializerFormatters()  // Bu ifadeyle isteyene json formatýnda dosyana isteyene de xml formatýnda dosya gönderebiliriz
+ .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly) // controller yapýsýný Presentation katmanýna taþýdýðýmýz için
+ .AddNewtonsoftJson(); // AddNewtonsoftJson => Patch istekleriyle çalýþmak için
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 

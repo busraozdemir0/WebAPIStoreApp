@@ -1,0 +1,52 @@
+﻿using Entities.DataTransferObjects;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Net.Http.Headers;
+using System.Reflection;
+using System.Text;
+
+namespace WebAPIStoreApp.Utilities.Formatters
+{
+    // Gelen isteğin csv formatında çıktı vermesi için
+    public class CsvOutputFormatter:TextOutputFormatter
+    {
+        public CsvOutputFormatter()
+        {
+            SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/csv"));
+            SupportedEncodings.Add(Encoding.UTF8);
+            SupportedEncodings.Add(Encoding.Unicode);
+        }
+
+        protected override bool CanWriteType(Type? type)
+        {
+            if(typeof(BookDto).IsAssignableFrom(type) || typeof(IEnumerable<BookDto>).IsAssignableFrom(type))
+            {
+                return base.CanWriteType(type);
+            }
+            return false;
+        }
+
+        private static void FormatCsv(StringBuilder buffer, BookDto book)
+        {
+            buffer.AppendLine($"{book.Id}, {book.Title}, {book.Price}");
+        }
+
+        public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+        {
+            var response = context.HttpContext.Response;
+            var buffer = new StringBuilder();
+
+            if(context.Object is IEnumerable<BookDto>) // eğer istek liste şeklindeyse
+            {
+                foreach(var book in (IEnumerable<BookDto>)context.Object)
+                {
+                    FormatCsv(buffer,book);
+                }
+            }
+            else // tek bir nesne için
+            {
+                FormatCsv(buffer, (BookDto)context.Object);
+            }
+            await response.WriteAsync(buffer.ToString());
+        }
+    }
+}

@@ -8,7 +8,9 @@ namespace WebAPIStoreApp.Utilities.AutoMapper
     {
         public MappingProfile()
         {
-            CreateMap<BookDtoForUpdate, Book>(); //BookDtoForUpdate ifadesi Book entity'sine dönüşecek
+            CreateMap<BookDtoForUpdate, Book>(); // BookDtoForUpdate ifadesi Book entity'sine dönüşecek
+            CreateMap<Book, BookDto>(); // Book'dan BookDto'ya geçebilmek için tersini de yazdık
+
         }
     }
 }
