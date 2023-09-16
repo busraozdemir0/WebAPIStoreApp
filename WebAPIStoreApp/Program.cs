@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
+using Presentation.ActionFilters;
 using Repositories.EfCore;
 using Services.Contracts;
 using WebAPIStoreApp.Extensions;
@@ -21,6 +22,7 @@ builder.Services.AddControllers(config =>
  .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly) // controller yapýsýný Presentation katmanýna taþýdýðýmýz için
  .AddNewtonsoftJson(); // AddNewtonsoftJson => Patch istekleriyle çalýþmak için
 
+
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;  // ModelState isvalid olduðunda BadRequest dönerek geçersiz kýlacaðýz/bastýracaðýz
@@ -36,6 +38,7 @@ builder.Services.ConfigureRepositoryManager(); // Extensions'daki Metod tek para
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.ConfigureActionFilters();  // Bu extension metodda validation ve loglama için attribute tanýmlarý yer alýyor
 
 var app = builder.Build();
 

@@ -3,6 +3,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Controllers
 {
+    [ServiceFilter(typeof(LogFilterAttribute))] // controller bazlı loglama
     [ApiController]
     [Route("api/books")]
     public class BooksController : ControllerBase
@@ -38,36 +40,20 @@ namespace Presentation.Controllers
             return Ok(book);
 
         }
+        [ServiceFilter(typeof(ValidationFilterAttribute))] // böyle bir attribute yazıp servis kaydını da gerçekleştirdiğimiz için action içerisinde modelstate.isvalid gibi kontroller yapmaya gerek yoktur
         [HttpPost]
         public async Task<IActionResult> CreateOneBookAsync([FromBody] BookDtoForInsertion bookDto)
         {
-            if (bookDto is null)
-            {
-                return BadRequest();  //400 kodu üretecek
-            }
-
-            if(!ModelState.IsValid)
-            {
-                return UnprocessableEntity(ModelState);  // Bu ifadeyle BookDtoForManipulation'da yazdığımız doğrulama mesajları 422 koduyla birlikte dönüş yapacaktır
-            }
             var book = await _manager.BookService.CreateOneBookAsync(bookDto);
 
             return StatusCode(201, book); // 201 kodu => created
 
         }
+
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateOneBookAsync([FromRoute(Name = "id")] int id, [FromBody] BookDtoForUpdate bookDto)
         {
-            if (bookDto is null) // parametre dolu mu boş mu kontrolü
-            {
-                return BadRequest();  //400 kodu üretecek
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return UnprocessableEntity(ModelState); // 422 kodu
-            }
-
             await _manager.BookService.UpdateOneBookAsync(id, bookDto, true);
 
             return NoContent(); //204
