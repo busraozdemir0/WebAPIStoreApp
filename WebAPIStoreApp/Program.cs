@@ -39,6 +39,7 @@ builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureActionFilters();  // Bu extension metodda validation ve loglama için attribute tanýmlarý yer alýyor
+builder.Services.ConfigureCors();
 
 var app = builder.Build();
 
@@ -58,6 +59,8 @@ if(app.Environment.IsProduction()) // production modda çalýþýyorsa
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy"); // cors yapýlandýrmasý ile herhangi biri api'mize istek atabilir, herhangi bir headeri kullanabilir.
 
 app.UseAuthorization();
 

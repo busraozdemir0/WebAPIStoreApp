@@ -30,5 +30,18 @@ namespace WebAPIStoreApp.Extensions
             services.AddScoped<ValidationFilterAttribute>(); // IoC
             services.AddSingleton<LogFilterAttribute>(); // loglama işlemi için bir tane nesnenin oluşması yeterli
         }
+
+        public static void ConfigureCors(this IServiceCollection services) // cors yapılandırması ile herhangi biri api'mize istek atabilir, herhangi bir headeri kullanabilir.
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => 
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithExposedHeaders("X-Pagination")
+                );
+            });
+        }
     }
 }
