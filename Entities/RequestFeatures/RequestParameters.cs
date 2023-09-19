@@ -22,6 +22,7 @@ namespace Entities.RequestFeatures
 		}
 
 		public String? OrderBy { get; set; }
+		public String? Fields { get; set; }  // örneğin sadece kitap başlıklarını listelemek istediğimizde veri şekillendirme yapıyoruz
 
 	}
 }

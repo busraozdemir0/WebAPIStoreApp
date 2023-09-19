@@ -40,6 +40,7 @@ builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureActionFilters();  // Bu extension metodda validation ve loglama için attribute tanýmlarý yer alýyor
 builder.Services.ConfigureCors();
+builder.Services.ConfigureDataShaper();
 
 var app = builder.Build();
 
