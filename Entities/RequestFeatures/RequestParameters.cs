@@ -21,5 +21,7 @@ namespace Entities.RequestFeatures
 			set { _pageSize = value>maxPageSize ? maxPageSize : value; }  // eğer kullanıcı 50den fazla kayıt isterse istediği kayıt sayısını döndürebilecek lojik
 		}
 
+		public String? OrderBy { get; set; }
+
 	}
 }
