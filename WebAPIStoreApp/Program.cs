@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using Presentation.ActionFilters;
 using Repositories.EfCore;
+using Services;
 using Services.Contracts;
 using WebAPIStoreApp.Extensions;
 
@@ -14,13 +15,13 @@ LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(),"/nlo
 
 builder.Services.AddControllers(config =>
 {
-    config.RespectBrowserAcceptHeader= true;  // default olarak false gelen yapýdýr. Ýçerik pazarlýðý için kullanýlýr. Örneðin csv olarak istek attýðýnda csv dosyasý olarak dönüþ yapmalýdýr
+    config.RespectBrowserAcceptHeader = true;  // default olarak false gelen yapýdýr. Ýçerik pazarlýðý için kullanýlýr. Örneðin csv olarak istek attýðýnda csv dosyasý olarak dönüþ yapmalýdýr
     config.ReturnHttpNotAcceptable = true;
 })
+     .AddXmlDataContractSerializerFormatters()  // Bu ifadeyle isteyene json formatýnda dosyana isteyene de xml formatýnda dosya gönderebiliriz
  .AddCustomCsvFormatter() // CSV formatýnda çýktý verecep yapýyý bu metodda inþaa ettik
- .AddXmlDataContractSerializerFormatters()  // Bu ifadeyle isteyene json formatýnda dosyana isteyene de xml formatýnda dosya gönderebiliriz
- .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly) // controller yapýsýný Presentation katmanýna taþýdýðýmýz için
- .AddNewtonsoftJson(); // AddNewtonsoftJson => Patch istekleriyle çalýþmak için
+ .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly); // controller yapýsýný Presentation katmanýna taþýdýðýmýz için
+ //.AddNewtonsoftJson(); // AddNewtonsoftJson => Patch istekleriyle çalýþmak için
 
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -41,6 +42,8 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureActionFilters();  // Bu extension metodda validation ve loglama için attribute tanýmlarý yer alýyor
 builder.Services.ConfigureCors();
 builder.Services.ConfigureDataShaper();
+builder.Services.AddCustomMediaTypes();
+builder.Services.AddScoped<IBookLinks, BookLinks>();
 
 var app = builder.Build();
 

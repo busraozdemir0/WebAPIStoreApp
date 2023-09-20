@@ -28,16 +28,24 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult> GetAllBooksAsync([FromQuery]BookParameters bookParameters)
         {
-            // Global hata yönetimi yaptığımız için try-catch bloklarını kaldırdık. Hata olduğunda o hatayı yakalayıp ilgili kodu ve mesajı bize döndürecektir
-            var pagedResult = await _manager
-                .BookService
-                .GetAllBooksAsync(bookParameters,false); // değişiklikleri izlememesini tercih ettiğimiz için ef core çalışmasında bir performans artışı gözlemleyeceğiz
+            var linkParameters = new LinkParameters()
+            {
+                BookParameters = bookParameters,
+                HttpContext = HttpContext
+            };
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData)); // metadataları headers bölümüne ekleme
-            
-            return Ok(pagedResult);
+            // Global hata yönetimi yaptığımız için try-catch bloklarını kaldırdık. Hata olduğunda o hatayı yakalayıp ilgili kodu ve mesajı bize döndürecektir
+            var result = await _manager
+                .BookService
+                .GetAllBooksAsync(linkParameters,false); // değişiklikleri izlememesini tercih ettiğimiz için ef core çalışmasında bir performans artışı gözlemleyeceğiz
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(result.metaData)); // metadataları headers bölümüne ekleme
+
+            // link üretilebildiyse link ile aksi durumda şekillendirilmiş veriyle dönüş yapılacak.
+            return result.linkResponse.HasLinks ? Ok(result.linkResponse.LinkedEntities) : Ok(result.linkResponse.ShapedEntities);
 
         }
         [HttpGet("{id:int}")]
