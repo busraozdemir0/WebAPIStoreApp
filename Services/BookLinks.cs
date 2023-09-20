@@ -46,8 +46,8 @@ namespace Services
             CreateForBooks(httpContext, bookCollection);
             return new LinkResponse { HasLinks = true, LinkedEntities = bookCollection };
         }
-        private LinkCollectionWrapper<Entity>  CreateForBooks(HttpContext httpContext, LinkCollectionWrapper<Entity> bookCollectionWrapper) // doğrudan kaynağın kendisidir
-        {
+        private LinkCollectionWrapper<Entity>  CreateForBooks(HttpContext httpContext, LinkCollectionWrapper<Entity> bookCollectionWrapper) 
+        { // doğrudan kaynağın kendisidir (tüm kitapların listesini döndürecek olan link üretiyoruz)
             bookCollectionWrapper.Links.Add(new Link() {
                 Href = $"/api/{httpContext.GetRouteData().Values["controller"].ToString().ToLower()}",
                 Rel="self",
