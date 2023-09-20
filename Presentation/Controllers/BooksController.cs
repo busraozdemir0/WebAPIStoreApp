@@ -57,7 +57,7 @@ namespace Presentation.Controllers
 
         }
         [ServiceFilter(typeof(ValidationFilterAttribute))] // böyle bir attribute yazıp servis kaydını da gerçekleştirdiğimiz için action içerisinde modelstate.isvalid gibi kontroller yapmaya gerek yoktur
-        [HttpPost]
+        [HttpPost(Name = "CreateOneBookAsync")]
         public async Task<IActionResult> CreateOneBookAsync([FromBody] BookDtoForInsertion bookDto)
         {
             var book = await _manager.BookService.CreateOneBookAsync(bookDto);

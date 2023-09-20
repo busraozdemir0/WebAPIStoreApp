@@ -186,3 +186,9 @@
 2023-09-20 15:08:39.0544 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
 2023-09-20 15:08:39.0716 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
 2023-09-20 15:08:39.0841 Info Configuration initialized.
+2023-09-20 15:27:00.1327 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-09-20 15:27:00.1556 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-09-20 15:27:00.1719 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
+2023-09-20 15:27:00.1719 Info Configuration initialized.
+2023-09-20 15:32:06.1125 Info AppDomain Shutting down. LogFactory closing...
+2023-09-20 15:32:06.1530 Info LogFactory has been closed.
