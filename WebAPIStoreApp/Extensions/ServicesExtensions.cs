@@ -1,4 +1,5 @@
 ﻿using Entities.DataTransferObjects;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -104,5 +105,20 @@ namespace WebAPIStoreApp.Extensions
                     .HasDeprecatedApiVersion(new ApiVersion(2, 0));
             });
         }
+
+        public static void ConfigureResponseCaching(this IServiceCollection services) =>
+            services.AddResponseCaching(); // istek gönderdikten sonra o istek 60 saniye boyunca ön bellekte duracak ve +
+                                           // 60 saniye içinde tekrar istek gönderirsek ön bellekten gelecek ve log oluşmayacak.
+    
+        public static void ConfigureHttpCacheHeaders(this IServiceCollection services)=>
+            services.AddHttpCacheHeaders(expirationOpt =>
+            {
+                expirationOpt.MaxAge = 90; // default değer 60 saniye olduğu için burada 90 saniye yapmayı denedik
+                expirationOpt.CacheLocation = CacheLocation.Public;
+            },
+              validationOpt =>
+              {
+                  validationOpt.MustRevalidate = false; // yeniden validate etme zorunluluğu olmasın
+              });
     }
 }

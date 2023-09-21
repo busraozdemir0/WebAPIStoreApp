@@ -17,6 +17,7 @@ builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;  // default olarak false gelen yapýdýr. Ýçerik pazarlýðý için kullanýlýr. Örneðin csv olarak istek attýðýnda csv dosyasý olarak dönüþ yapmalýdýr
     config.ReturnHttpNotAcceptable = true;
+    config.CacheProfiles.Add("5mins", new CacheProfile() { Duration=300}); // 5 dakikalýk/300 saniye cache profile oluþturuldu
 })
      .AddXmlDataContractSerializerFormatters()  // Bu ifadeyle isteyene json formatýnda dosyana isteyene de xml formatýnda dosya gönderebiliriz
  .AddCustomCsvFormatter() // CSV formatýnda çýktý verecep yapýyý bu metodda inþaa ettik
@@ -45,6 +46,8 @@ builder.Services.ConfigureDataShaper();
 builder.Services.AddCustomMediaTypes();
 builder.Services.AddScoped<IBookLinks, BookLinks>();
 builder.Services.ConfigureVersioning();
+builder.Services.ConfigureResponseCaching();
+builder.Services.ConfigureHttpCacheHeaders();
 
 var app = builder.Build();
 
@@ -66,6 +69,8 @@ if(app.Environment.IsProduction()) // production modda çalýþýyorsa
 app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy"); // cors yapýlandýrmasý ile herhangi biri api'mize istek atabilir, herhangi bir headeri kullanabilir.
+app.UseResponseCaching(); // ön bellekte tutmak için (Cors'tan sonra çaðýrýlmalý)
+app.UseHttpCacheHeaders();
 
 app.UseAuthorization();
 

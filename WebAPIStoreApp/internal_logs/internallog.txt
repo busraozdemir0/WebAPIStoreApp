@@ -208,3 +208,31 @@
 2023-09-21 13:20:28.1889 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
 2023-09-21 13:20:28.2052 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
 2023-09-21 13:20:28.2212 Info Configuration initialized.
+2023-09-21 13:49:43.7972 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-09-21 13:49:43.8450 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-09-21 13:49:43.8617 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
+2023-09-21 13:49:43.8758 Info Configuration initialized.
+2023-09-21 13:54:59.7727 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-09-21 13:54:59.7915 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-09-21 13:54:59.8041 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
+2023-09-21 13:54:59.8158 Info Configuration initialized.
+2023-09-21 13:59:43.4688 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-09-21 13:59:43.4947 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-09-21 13:59:43.5106 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
+2023-09-21 13:59:43.5223 Info Configuration initialized.
+2023-09-21 14:08:42.5722 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-09-21 14:08:42.5927 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-09-21 14:08:42.6054 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
+2023-09-21 14:08:42.6193 Info Configuration initialized.
+2023-09-21 14:13:33.2101 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-09-21 14:13:33.2291 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-09-21 14:13:33.2451 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
+2023-09-21 14:13:33.2620 Info Configuration initialized.
+2023-09-21 14:17:20.7581 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-09-21 14:17:20.7795 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-09-21 14:17:20.7931 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
+2023-09-21 14:17:20.8064 Info Configuration initialized.
+2023-09-21 14:17:50.1580 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-09-21 14:17:50.1831 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-09-21 14:17:50.2003 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
+2023-09-21 14:17:50.2134 Info Configuration initialized.

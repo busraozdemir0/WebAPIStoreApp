@@ -2,6 +2,7 @@
 using Entities.Exceptions;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
@@ -20,6 +21,8 @@ namespace Presentation.Controllers
     [ApiController]
     //[Route("api/{v:apiversion}/books")]  // URL ile versiyon tanımlama
     [Route("api/books")]
+    //[ResponseCache(CacheProfileName = "5mins")] // bu controllerdeki tüm metodlara 5 dk'lık cache profile uyguladık
+    //[HttpCacheExpiration(CacheLocation=CacheLocation.Public, MaxAge = 80)] // BooksController için ön bellekte tutma işlemi 80 saniye olsun
     public class BooksController : ControllerBase
     {
         private readonly IServiceManager _manager;
@@ -32,6 +35,7 @@ namespace Presentation.Controllers
         [HttpHead] // Get ile benzer işlemdedir. Burada header'daki ifadeleri(meta ifadeleri) okuruz.
         [HttpGet(Name = "GetAllBooksAsync")]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        //[ResponseCache(Duration = 60)]  // 60 saniye boyunca ön bellekte tutacak
         public async Task<IActionResult> GetAllBooksAsync([FromQuery]BookParameters bookParameters)
         {
             var linkParameters = new LinkParameters()
