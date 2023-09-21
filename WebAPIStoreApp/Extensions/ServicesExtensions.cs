@@ -1,4 +1,5 @@
-﻿using Entities.DataTransferObjects;
+﻿using AspNetCoreRateLimit;
+using Entities.DataTransferObjects;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -120,5 +121,27 @@ namespace WebAPIStoreApp.Extensions
               {
                   validationOpt.MustRevalidate = false; // yeniden validate etme zorunluluğu olmasın
               });
+
+        public static void ConfigureRateLimitingOptions(this IServiceCollection services)
+        {
+            var rateLimitRules = new List<RateLimitRule>() { 
+                new RateLimitRule()
+                {
+                    Endpoint="*",
+                    Limit=3,  // dakikada 3 istek olabilsin
+                    Period="1m" // 1 dakika içerisinde yalnızca 3 istek alınabilecek
+                }
+            };
+
+            services.Configure<IpRateLimitOptions>(opt =>
+            {
+                opt.GeneralRules = rateLimitRules;
+            });
+
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        }
     }
 }

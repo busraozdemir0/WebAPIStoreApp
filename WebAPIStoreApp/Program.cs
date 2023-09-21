@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
@@ -48,6 +49,9 @@ builder.Services.AddScoped<IBookLinks, BookLinks>();
 builder.Services.ConfigureVersioning();
 builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureHttpCacheHeaders();
+builder.Services.AddMemoryCache();  // hýz sýnýrlama için
+builder.Services.ConfigureRateLimitingOptions(); // hýz sýnýrlama için
+builder.Services.AddHttpContextAccessor(); // hýz sýnýrlama için
 
 var app = builder.Build();
 
@@ -68,6 +72,7 @@ if(app.Environment.IsProduction()) // production modda çalýþýyorsa
 
 app.UseHttpsRedirection();
 
+app.UseIpRateLimiting(); // hýz sýnýrlama için(örn. dakikada 3 istek gibi)
 app.UseCors("CorsPolicy"); // cors yapýlandýrmasý ile herhangi biri api'mize istek atabilir, herhangi bir headeri kullanabilir.
 app.UseResponseCaching(); // ön bellekte tutmak için (Cors'tan sonra çaðýrýlmalý)
 app.UseHttpCacheHeaders();
