@@ -53,6 +53,9 @@ builder.Services.AddMemoryCache();  // hýz sýnýrlama için
 builder.Services.ConfigureRateLimitingOptions(); // hýz sýnýrlama için
 builder.Services.AddHttpContextAccessor(); // hýz sýnýrlama için
 
+builder.Services.AddAuthentication(); // kullanýcý adý ve þifreyi aktifleþtirmek
+builder.Services.ConfigureIdentity();
+
 var app = builder.Build();
 
 var logger = app.Services.GetRequiredService<ILoggerService>();
@@ -77,7 +80,8 @@ app.UseCors("CorsPolicy"); // cors yapýlandýrmasý ile herhangi biri api'mize ist
 app.UseResponseCaching(); // ön bellekte tutmak için (Cors'tan sonra çaðýrýlmalý)
 app.UseHttpCacheHeaders();
 
-app.UseAuthorization();
+app.UseAuthentication();  // önce kullanýcý adý ve þifre ile doðrulama iþlemi gerçekleþtirilecek
+app.UseAuthorization(); // ardýndan yetkilendirme iþlemi gerçekleþtirilecek
 
 app.MapControllers();
 

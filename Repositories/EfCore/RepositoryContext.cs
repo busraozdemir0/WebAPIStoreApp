@@ -1,16 +1,12 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Repositories.EfCore.Config;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Repositories.EfCore
 {
-    public class RepositoryContext : DbContext
+    public class RepositoryContext : IdentityDbContext<User> // User tablosu oluşturup IdentityUser kalıttığımız için buraya geçtik
     {
         public RepositoryContext(DbContextOptions options) : base(options)
         {
@@ -21,7 +17,11 @@ namespace Repositories.EfCore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // model oluşturulurken BookConfig'de yazdığımız çekirdek veriler doğrudan veritabanına yansıyacak
-            modelBuilder.ApplyConfiguration(new BookConfig());
+            base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.ApplyConfiguration(new BookConfig());
+            //modelBuilder.ApplyConfiguration(new RoleConfiguration());  // roller için çekirdek datalar yer alıyor
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());  // yukarıdaki gibi tek tek configleri yazmak yerine bu şekilde tek satırda yapabiliriz
         }
     }
 }

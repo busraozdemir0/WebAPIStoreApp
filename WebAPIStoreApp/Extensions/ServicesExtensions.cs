@@ -1,6 +1,8 @@
 ﻿using AspNetCoreRateLimit;
 using Entities.DataTransferObjects;
+using Entities.Models;
 using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -142,6 +144,22 @@ namespace WebAPIStoreApp.Extensions
             services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
             services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        }
+
+        // Identity kütüphanesi için configuration
+        public static void ConfigureIdentity(this IServiceCollection services)
+        {
+            var builder = services.AddIdentity<User, IdentityRole>(opts =>
+            {
+                opts.Password.RequireDigit = true;  // şifrede rakam olsun mu
+                opts.Password.RequireLowercase = false; // küçük harf olsun mu
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequireNonAlphanumeric = false; // alfa nümerik karakterler olsun mu
+                opts.Password.RequiredLength = 6; // uzunluğu 6 karakter olsun
+
+                opts.User.RequireUniqueEmail = true;  // bir email bir kere kullanılabilsin
+            }).AddEntityFrameworkStores<RepositoryContext>()
+              .AddDefaultTokenProviders();
         }
     }
 }
