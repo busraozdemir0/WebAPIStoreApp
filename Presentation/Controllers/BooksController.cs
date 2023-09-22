@@ -3,6 +3,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Entities.RequestFeatures;
 using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
@@ -31,7 +32,7 @@ namespace Presentation.Controllers
         {
             _manager = manager;
         }
-
+        [Authorize]  // bu metot için eğer giriş yapmamışsa yani token'ı yoksa unauthorized(yetkisiz) ile bize dönüş yapacaktır
         [HttpHead] // Get ile benzer işlemdedir. Burada header'daki ifadeleri(meta ifadeleri) okuruz.
         [HttpGet(Name = "GetAllBooksAsync")]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
