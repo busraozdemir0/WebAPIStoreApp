@@ -53,8 +53,9 @@ builder.Services.AddMemoryCache();  // hýz sýnýrlama için
 builder.Services.ConfigureRateLimitingOptions(); // hýz sýnýrlama için
 builder.Services.AddHttpContextAccessor(); // hýz sýnýrlama için
 
-builder.Services.AddAuthentication(); // kullanýcý adý ve þifreyi aktifleþtirmek
 builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJWT(builder.Configuration); // JWT configurasyonu
+
 
 var app = builder.Build();
 
