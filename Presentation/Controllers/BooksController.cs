@@ -15,6 +15,10 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+// Postman Books Collection Dokümentasyonu =>  https://documenter.getpostman.com/view/29533491/2s9YJW55bZ
+// Postman Authentication Collection Dokümentasyonu =>  https://documenter.getpostman.com/view/29533491/2s9YJW55ba#a5f43536-1d69-467f-a48c-88f768900f35
+// Postman Books V2 Collection Dokümentasyonu =>  https://documenter.getpostman.com/view/29533491/2s9YJW55bb
+
 namespace Presentation.Controllers
 {
     //[ApiVersion("1.0")]
