@@ -13,6 +13,7 @@ namespace Presentation.Controllers
     [ApiController]
     //[Route("api/{v:apiversion}/books")]  // URL ile versiyon tanımlama
     [Route("api/books")]
+    [ApiExplorerSettings(GroupName ="v2")] // versiyon işlemini gruplandırdık (UI için)
     public class BooksV2Controller:ControllerBase
     {
         private readonly IServiceManager _manager;

@@ -34,7 +34,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwagger();
 
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager(); // Extensions'daki Metod tek parametreli dizi olduðu için metoda parametre vermek zorunda deðiliz
@@ -66,7 +66,11 @@ app.ConfigureExcepitonHandler(logger);
 if (app.Environment.IsDevelopment())  // development modunda çalýþýyorsa
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(s =>
+    {  // version1 ve version2'yi ayýrýyoruz swagger için
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "BTK Akademi v1");
+        s.SwaggerEndpoint("/swagger/v2/swagger.json", "BTK Akademi v2");
+    });
 }
 
 if(app.Environment.IsProduction()) // production modda çalýþýyorsa
