@@ -278,3 +278,17 @@
 2023-09-22 14:34:44.4724 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
 2023-09-22 14:34:44.4862 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
 2023-09-22 14:34:44.5006 Info Configuration initialized.
+2023-09-23 16:20:49.8219 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-09-23 16:20:49.9156 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-09-23 16:20:49.9877 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
+2023-09-23 16:20:50.0550 Info Configuration initialized.
+2023-09-23 16:23:45.2551 Info AppDomain Shutting down. LogFactory closing...
+2023-09-23 16:23:45.2906 Info LogFactory has been closed.
+2023-09-23 16:24:40.2780 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-09-23 16:24:40.3176 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-09-23 16:24:40.3465 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
+2023-09-23 16:24:40.3778 Info Configuration initialized.
+2023-09-23 16:39:38.2533 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-09-23 16:39:38.2830 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-09-23 16:39:38.3019 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\WebAPIStoreApp\WebAPIStoreApp\nlog.config
+2023-09-23 16:39:38.3219 Info Configuration initialized.

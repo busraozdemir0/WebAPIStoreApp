@@ -38,5 +38,20 @@ namespace Presentation.Controllers
 
             return StatusCode(201);  // hata yoksa 201 koduyla dönecek
         }
+
+        [HttpPost("login")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)  // login olmak için action
+        {
+            if(!await _service.AuthenticationService.ValidateUser(user))
+            {
+                return Unauthorized(); //401 
+            }
+            return Ok(new
+            {
+                Token = await _service.AuthenticationService.CreateToken()  // eğer başarılı bir şekilde giriş yapıldıysa o kullanıcıya ait token oluşturulacak
+            });
+        }
+
     }
 }
