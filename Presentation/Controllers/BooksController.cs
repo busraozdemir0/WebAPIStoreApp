@@ -56,6 +56,7 @@ namespace Presentation.Controllers
             return result.linkResponse.HasLinks ? Ok(result.linkResponse.LinkedEntities) : Ok(result.linkResponse.ShapedEntities);
 
         }
+        [Authorize] 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetOneBookAsync([FromRoute(Name = "id")] int id)  // id Route'dan gelecek
         {
@@ -63,6 +64,7 @@ namespace Presentation.Controllers
             return Ok(book);
 
         }
+        [Authorize(Roles = "Editor, Admin")]  // eğer admin rolündeyse yeni kitap oluşturabilecek
         [ServiceFilter(typeof(ValidationFilterAttribute))] // böyle bir attribute yazıp servis kaydını da gerçekleştirdiğimiz için action içerisinde modelstate.isvalid gibi kontroller yapmaya gerek yoktur
         [HttpPost(Name = "CreateOneBookAsync")]
         public async Task<IActionResult> CreateOneBookAsync([FromBody] BookDtoForInsertion bookDto)
@@ -72,7 +74,7 @@ namespace Presentation.Controllers
             return StatusCode(201, book); // 201 kodu => created
 
         }
-
+        [Authorize(Roles = "Editor, Admin")]   // başka rolde biri erişmeye çalışırsa yetkisi olmadığından forbidden ile dönüş yapacak
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateOneBookAsync([FromRoute(Name = "id")] int id, [FromBody] BookDtoForUpdate bookDto)
@@ -82,6 +84,7 @@ namespace Presentation.Controllers
             return NoContent(); //204
 
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteOneBookAsync([FromRoute(Name = "id")] int id)
         {
@@ -89,6 +92,7 @@ namespace Presentation.Controllers
 
             return NoContent();
         }
+        [Authorize(Roles = "Editor, Admin")]
         [HttpPatch("{id:int}")] // kısmi güncelleme(örneğin bir kaydın sadece başlığını güncellemek gibi)
         public async Task<IActionResult> PartiallyUpdateOneBookAsync([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<BookDtoForUpdate> bookPatch)
         {
@@ -108,7 +112,7 @@ namespace Presentation.Controllers
 
             return NoContent(); //204
         }
-
+        [Authorize]
         [HttpOptions]
         public IActionResult GetBooksOptions()
         {

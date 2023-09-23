@@ -133,7 +133,7 @@ namespace WebAPIStoreApp.Extensions
                 new RateLimitRule()
                 {
                     Endpoint="*",
-                    Limit=3,  // dakikada 3 istek olabilsin
+                    Limit=60,  // dakikada 60 istek olabilsin
                     Period="1m" // 1 dakika içerisinde yalnızca 3 istek alınabilecek
                 }
             };

@@ -47,10 +47,18 @@ namespace Presentation.Controllers
             {
                 return Unauthorized(); //401 
             }
-            return Ok(new
-            {
-                Token = await _service.AuthenticationService.CreateToken()  // eğer başarılı bir şekilde giriş yapıldıysa o kullanıcıya ait token oluşturulacak
-            });
+
+            var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
+
+            return Ok(tokenDto);
+        }
+
+        [HttpPost("refresh")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]  // eğer dto null ise doğrudan hata fırlatacak
+        public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)  // Kullanıcının refresh endpointi sayesinde access token ve refresh token alarak dönüş yapmasını sağlayacağız
+        {
+            var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(tokenDto);
+            return Ok(tokenDtoToReturn);
         }
 
     }
