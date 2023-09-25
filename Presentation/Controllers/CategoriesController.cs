@@ -28,7 +28,7 @@ namespace Presentation.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAllCategoryByIdAsync([FromRoute] int id)
         {
-            return Ok(await _services.CategoryService.GetAllCategoryByIdAsync(id, false));
+            return Ok(await _services.CategoryService.GetOneCategoryByIdAsync(id, false));
         }
     }
 }
