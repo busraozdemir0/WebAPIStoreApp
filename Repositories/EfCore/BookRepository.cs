@@ -40,6 +40,15 @@ namespace Repositories.EfCore
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Book>> GetAllBooksWithDetailsAsync(bool trackChanges)
+        {
+            return await _context
+                .Books
+                .Include(b => b.Category)  // Category tablosunu include ederek hem kategoriyi hem de book ifadelerini doldurabiliriz.
+                .OrderBy(b => b.Id)
+                .ToListAsync();
+        }
+
         public async Task<Book> GetOneBookByIdAsync(int id, bool trackChanges)
         {
             return await FindByCondition(b => b.Id.Equals(id), trackChanges).SingleOrDefaultAsync();

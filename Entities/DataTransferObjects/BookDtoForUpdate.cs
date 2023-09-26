@@ -11,5 +11,7 @@ namespace Entities.DataTransferObjects
     {
         [Required]
         public int Id { get; init; } // record type olarak tanımladığımız için tanımlandığı yerde initialize edilmeli(init)
+        [Required(ErrorMessage ="CategoryId is required")]
+        public int CategoryId { get; init; }
     }
 }

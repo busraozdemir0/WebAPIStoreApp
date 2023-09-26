@@ -15,9 +15,9 @@ namespace Repositories.EfCore.Config
         {
             // eğer bu tablo oluştuğunda veri yoksa aşağıdaki kayıtları varsayılan olarak tabloya kaydet.
             builder.HasData(
-                    new Book { Id = 1, Title = "Hacivat ve Karagöz", Price = 75 },
-                    new Book { Id = 2, Title = "Mesnevi", Price = 175 },
-                    new Book { Id = 3, Title = "Devlet", Price = 350 }
+                    new Book { Id = 1, Title = "Hacivat ve Karagöz", Price = 75, CategoryId=1 },
+                    new Book { Id = 2, Title = "Mesnevi", Price = 175, CategoryId = 2 },
+                    new Book { Id = 3, Title = "Devlet", Price = 350, CategoryId = 2 }
                 );
         }
     }

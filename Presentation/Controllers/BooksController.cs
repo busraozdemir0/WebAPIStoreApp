@@ -69,6 +69,14 @@ namespace Presentation.Controllers
             return Ok(book);
 
         }
+
+        [Authorize]
+        [HttpGet("details")]   // endpointte bu metodu details ile çağıracağız
+        public async Task<IActionResult> GetAllBooksWithDetailsAsync()
+        {
+            return Ok(await _manager.BookService.GetAllBooksWithDetailsAsync(false));
+        }
+
         [Authorize(Roles = "Editor, Admin")]  // eğer admin rolündeyse yeni kitap oluşturabilecek
         [ServiceFilter(typeof(ValidationFilterAttribute))] // böyle bir attribute yazıp servis kaydını da gerçekleştirdiğimiz için action içerisinde modelstate.isvalid gibi kontroller yapmaya gerek yoktur
         [HttpPost(Name = "CreateOneBookAsync")]

@@ -10,7 +10,7 @@ using WebAPIStoreApp.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
+LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 // Add services to the container.
 
@@ -18,12 +18,15 @@ builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;  // default olarak false gelen yapýdýr. Ýçerik pazarlýðý için kullanýlýr. Örneðin csv olarak istek attýðýnda csv dosyasý olarak dönüþ yapmalýdýr
     config.ReturnHttpNotAcceptable = true;
-    config.CacheProfiles.Add("5mins", new CacheProfile() { Duration=300}); // 5 dakikalýk/300 saniye cache profile oluþturuldu
+    config.CacheProfiles.Add("5mins", new CacheProfile() { Duration = 300 }); // 5 dakikalýk/300 saniye cache profile oluþturuldu
 })
      .AddXmlDataContractSerializerFormatters()  // Bu ifadeyle isteyene json formatýnda dosyana isteyene de xml formatýnda dosya gönderebiliriz
  .AddCustomCsvFormatter() // CSV formatýnda çýktý verecep yapýyý bu metodda inþaa ettik
- .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly); // controller yapýsýný Presentation katmanýna taþýdýðýmýz için
- //.AddNewtonsoftJson(); // AddNewtonsoftJson => Patch istekleriyle çalýþmak için
+ .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly) // controller yapýsýný Presentation katmanýna taþýdýðýmýz için
+ .AddNewtonsoftJson(opt =>
+ opt.SerializerSettings.ReferenceLoopHandling =
+ Newtonsoft.Json.ReferenceLoopHandling.Ignore
+ ); // AddNewtonsoftJson => Patch istekleriyle çalýþmak için
 
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -73,7 +76,7 @@ if (app.Environment.IsDevelopment())  // development modunda çalýþýyorsa
     });
 }
 
-if(app.Environment.IsProduction()) // production modda çalýþýyorsa
+if (app.Environment.IsProduction()) // production modda çalýþýyorsa
 {
     app.UseHsts();
 }

@@ -30,6 +30,9 @@ namespace WebAPIStoreApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -39,24 +42,29 @@ namespace WebAPIStoreApp.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Books");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            CategoryId = 1,
                             Price = 75m,
                             Title = "Hacivat ve Karagöz"
                         },
                         new
                         {
                             Id = 2,
+                            CategoryId = 2,
                             Price = 175m,
                             Title = "Mesnevi"
                         },
                         new
                         {
                             Id = 3,
+                            CategoryId = 2,
                             Price = 350m,
                             Title = "Devlet"
                         });
@@ -202,22 +210,22 @@ namespace WebAPIStoreApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "eb671d9d-2b92-4ad8-98a8-ceef952aba7a",
-                            ConcurrencyStamp = "0c88a034-ee8d-4f8d-b79a-baf0dd309a20",
+                            Id = "9bcd1e96-9a18-4dea-a2ed-cba621e97425",
+                            ConcurrencyStamp = "cbe248a1-8335-4346-8ba2-2130e5f8dbde",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "ce0996f8-27fe-47dc-919e-776719c27dd0",
-                            ConcurrencyStamp = "11564ea4-f128-44bc-91c2-b5f968aa77a2",
+                            Id = "30fd0c44-9294-48a6-b422-eec5638e4ee3",
+                            ConcurrencyStamp = "6e409e91-26d3-4aed-8084-89d3d30ba1a9",
                             Name = "Editor",
                             NormalizedName = "EDITOR"
                         },
                         new
                         {
-                            Id = "c35ad2c7-394b-4c17-b0e7-a2de07a55ecc",
-                            ConcurrencyStamp = "e4509535-d23c-449b-bafd-017b870b0169",
+                            Id = "a3bd16aa-0b16-4d94-8d16-2ad0ba24cb9a",
+                            ConcurrencyStamp = "edac66fa-da8f-4385-aa6e-4cc5b5327b5c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -329,6 +337,17 @@ namespace WebAPIStoreApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Entities.Models.Book", b =>
+                {
+                    b.HasOne("Entities.Models.Category", "Category")
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -378,6 +397,11 @@ namespace WebAPIStoreApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Models.Category", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
