@@ -59,6 +59,9 @@ builder.Services.AddHttpContextAccessor(); // hýz sýnýrlama için
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration); // JWT configurasyonu
 
+builder.Services.RegisterRepositories();
+builder.Services.RegisterServices();
+
 
 var app = builder.Build();
 
