@@ -17,7 +17,7 @@ namespace Repositories.EfCore
 
         public void CreateOneCategory(Category category) => Create(category);
 
-        public void DeleteOneCategory(Category category)=>Delete(category);
+        public void DeleteOneCategory(Category category) => Delete(category);
 
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync(bool trackChanges)

@@ -12,6 +12,9 @@ namespace WebAPIStoreApp.Utilities.AutoMapper
             CreateMap<Book, BookDto>(); // Book'dan BookDto'ya geçebilmek için tersini de yazdık
             CreateMap<BookDtoForInsertion, Book>(); 
             CreateMap<UserForRegistrationDto, User>(); 
+
+            CreateMap<Category, CategoryDto>().ReverseMap(); 
+            CreateMap<CategoryDtoForInsertion, Category>().ReverseMap(); 
         }
     }
 }

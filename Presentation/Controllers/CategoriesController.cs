@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Entities.DataTransferObjects;
+using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,19 @@ namespace Presentation.Controllers
         public async Task<IActionResult> GetAllCategoryByIdAsync([FromRoute] int id)
         {
             return Ok(await _services.CategoryService.GetOneCategoryByIdAsync(id, false));
+        }
+        [HttpPost(Name ="create")]
+        public async Task<IActionResult> CreateOneCategoryAsync([FromBody] CategoryDtoForInsertion categoryDto)
+        {
+            var category=await _services.CategoryService.CreateOneCategoryAsync(categoryDto);
+            return StatusCode(201, category);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteOneCategoryAsync([FromRoute(Name ="id")] int id)
+        {
+            await _services.CategoryService.DeleteOneCategoryAsync(id, false);
+            return NoContent();
         }
     }
 }
