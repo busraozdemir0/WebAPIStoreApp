@@ -15,6 +15,7 @@ namespace WebAPIStoreApp.Utilities.AutoMapper
 
             CreateMap<Category, CategoryDto>().ReverseMap(); 
             CreateMap<CategoryDtoForInsertion, Category>().ReverseMap(); 
+            CreateMap<CategoryDtoForUpdate, Category>().ReverseMap(); 
         }
     }
 }

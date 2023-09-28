@@ -44,5 +44,12 @@ namespace Presentation.Controllers
             await _services.CategoryService.DeleteOneCategoryAsync(id, false);
             return NoContent();
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateOneCategoryAsync([FromRoute(Name = "id")] int id, [FromBody] CategoryDtoForUpdate categoryDto)
+        {
+            await _services.CategoryService.UpdateOneCategoryAsync(id, categoryDto, true);
+            return NoContent();
+        }
     }
 }

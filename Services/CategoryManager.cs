@@ -53,6 +53,13 @@ namespace Services
             return category;
         }
 
+        public async Task UpdateOneCategoryAsync(int id, CategoryDtoForUpdate categoryDto, bool trackChanges)
+        {
+            var categoryID = await GetOneCategoryByIdCheckExists(id, trackChanges);
+            categoryID=_mapper.Map<Category>(categoryDto);
+            _manager.Category.Update(categoryID);
+            await _manager.SaveAsync();
+        }
         private async Task<Category> GetOneCategoryByIdCheckExists(int id, bool trackChanges)
         {
             var categoryID = await _manager.Category.GetOneCategoryByIdAsync(id, trackChanges);

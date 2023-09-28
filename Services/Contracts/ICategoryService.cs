@@ -14,5 +14,6 @@ namespace Services.Contracts
         Task<Category> GetOneCategoryByIdAsync(int id, bool trackChanges);
         Task<CategoryDto> CreateOneCategoryAsync(CategoryDtoForInsertion categoryDto);
         Task DeleteOneCategoryAsync(int id, bool trackChanges);
+        Task UpdateOneCategoryAsync(int id, CategoryDtoForUpdate categoryDto, bool trackChanges);
     }
 }
